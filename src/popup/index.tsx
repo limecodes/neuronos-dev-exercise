@@ -7,6 +7,8 @@ import MessagesProvider from './context/MessagesProvider'
 
 import Popup from './Popup'
 
+import '../styles.css'
+
 chrome.tabs.query({ active: true, currentWindow: true }, async () => {
   const messages = await Messages.get()
 

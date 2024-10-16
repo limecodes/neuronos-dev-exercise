@@ -61,7 +61,6 @@ export default function MessagesProvider({
 
   return (
     <MessagesContext.Provider value={value}>
-      <p>{JSON.stringify(messages)}</p>
       {children}
     </MessagesContext.Provider>
   )
