@@ -1,0 +1,50 @@
+name: Release - Test, Lint, Build, and Package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  test-lint-build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Build the extension
+        run: npm run build
+
+      - name: Create zip file
+        run: |
+          mkdir -p chrome-extension
+          cp -r dist/* chrome-extension/
+          zip -r chrome-extension.zip chrome-extension
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: chrome-extension
+          path: chrome-extension.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: chrome-extension.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
