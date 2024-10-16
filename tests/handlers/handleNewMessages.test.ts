@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { handleNewMessages } from '../../src/handlers/handleNewMessages'
+import { handleUpdateBadge } from '../../src/handlers/handleUpdateBadge'
 import Messages from '../../src/lib/Messages'
 import type { Message } from '../../src/types'
 
@@ -26,6 +27,8 @@ jest.mock('@faker-js/faker', () => {
   }
 })
 
+jest.mock('../../src/handlers/handleUpdateBadge')
+
 describe('handleNewMessages', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -46,11 +49,12 @@ describe('handleNewMessages', () => {
 
     expect(consoleSpy).toHaveBeenCalledWith('No new messages')
     expect(Messages.set).not.toHaveBeenCalled()
+    expect(handleUpdateBadge).not.toHaveBeenCalled()
 
     consoleSpy.mockRestore()
   })
 
-  it('should fetch and save new messages', async () => {
+  it('should fetch and save new messages, and update the badge', async () => {
     const mockStoredMessages: Message[] = [
       {
         id: 'msg1',
@@ -92,6 +96,7 @@ describe('handleNewMessages', () => {
     expect(Messages.get).toHaveBeenCalled()
     expect(Messages.fetch).toHaveBeenCalledWith('msg1')
     expect(Messages.set).toHaveBeenCalledWith(combinedMessages)
+    expect(handleUpdateBadge).toHaveBeenCalledWith(combinedMessages)
     expect(consoleSpy).toHaveBeenCalledWith('Messages saved successfully')
 
     consoleSpy.mockRestore()

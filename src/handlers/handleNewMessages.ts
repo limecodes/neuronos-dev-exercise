@@ -1,5 +1,6 @@
 import Messages from '../lib/Messages'
 import type { Message } from '../types'
+import { handleUpdateBadge } from './handleUpdateBadge'
 
 /**
  * Handler for fetching and saving messages to be used when installing
@@ -28,5 +29,5 @@ export async function handleNewMessages(
     onSaved?.(messages)
   }
 
-  //TODO: Remember to add badge
+  handleUpdateBadge(messages)
 }

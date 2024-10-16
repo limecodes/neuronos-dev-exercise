@@ -1,6 +1,9 @@
+import { handleUpdateBadge } from '../../src/handlers/handleUpdateBadge'
 import { handleUpdateMessages } from '../../src/handlers/handleUpdateMessages'
 import Messages from '../../src/lib/Messages'
 import type { Message } from '../../src/types'
+
+jest.mock('../../src/handlers/handleUpdateBadge')
 
 describe('handleUpdateMessages', () => {
   let originalGet: typeof chrome.storage.local.get
@@ -67,12 +70,19 @@ describe('handleUpdateMessages', () => {
       },
       mockStoredMessages[1],
     ])
+    expect(handleUpdateBadge).toHaveBeenCalledWith([
+      {
+        ...mockStoredMessages[0],
+        ...updatedMessageFields,
+      },
+      mockStoredMessages[1],
+    ])
     expect(consoleSpy).toHaveBeenCalledWith('Messages saved successfully')
 
     consoleSpy.mockRestore()
   })
 
-  it('should not call onUpdated if saving messages fails', async () => {
+  it('should not update the badge or call onUpdated if saving messages fails', async () => {
     const mockStoredMessages: Message[] = [
       {
         id: 'msg1',
@@ -119,6 +129,7 @@ describe('handleUpdateMessages', () => {
       mockStoredMessages[1],
     ])
     expect(onUpdatedSpy).not.toHaveBeenCalled()
+    expect(handleUpdateBadge).not.toHaveBeenCalled()
     expect(consoleSpy).not.toHaveBeenCalledWith('Messages saved successfully')
 
     consoleSpy.mockRestore()
