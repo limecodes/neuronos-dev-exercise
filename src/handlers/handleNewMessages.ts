@@ -1,6 +1,12 @@
 import Messages from '../lib/Messages'
 import type { Message } from '../types'
 
+/**
+ * Handler for fetching and saving messages to be used when installing
+ * and listening for updates when the extension is running
+ * @param onSaved - Callback function to run after messages are saved
+ * @returns
+ */
 export async function handleNewMessages(
   onSaved?: (messages: Message[]) => void,
 ) {
