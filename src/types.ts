@@ -14,3 +14,11 @@ export type MessageResponse = {
     start: string | null
   }
 }
+
+export type EventAction = 'NEW_MESSAGES' | 'UPDATE_MESSAGE'
+
+export type EventMessage = {
+  action: EventAction
+  id: string
+  message: Partial<Message>
+}
