@@ -1,5 +1,11 @@
 import { StorageArg } from './types'
 
+/**
+ * Get data from storage
+ * @param storageKey
+ * @returns Promise<ReturnType>
+ * @throws Error if no data found
+ */
 function get<ReturnType>(storageKey: string): Promise<ReturnType> {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get<StorageArg<ReturnType>>(storageKey, data => {
@@ -18,6 +24,13 @@ function get<ReturnType>(storageKey: string): Promise<ReturnType> {
   })
 }
 
+/**
+ * Set data to storage
+ * @param storageKey
+ * @param payload
+ * @returns Promise<void>
+ * @throws Error if storage fails
+ */
 function set<InputType>(storageKey: string, payload: InputType): Promise<void> {
   return new Promise((resolve, reject) => {
     chrome.storage.local.set<StorageArg<InputType>>(
