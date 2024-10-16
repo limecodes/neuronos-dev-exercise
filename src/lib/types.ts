@@ -11,3 +11,5 @@ export type Variables = {
 export type ErrorType = {
   error: string
 }
+
+export type StorageArg<T> = Record<string, T>
