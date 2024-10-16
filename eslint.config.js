@@ -27,16 +27,6 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      'simple-import-sort/imports': 'error',
-      'simple-import-sort/exports': 'error',
-      'import/order': [
-        'error',
-        {
-          groups: [['builtin', 'external', 'internal']],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-        },
-      ],
     },
   },
 )
