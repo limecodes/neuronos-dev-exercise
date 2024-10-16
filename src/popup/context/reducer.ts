@@ -1,5 +1,5 @@
-import type { ReducerAction, ReducerState } from './types'
 import type { Message, SortOptions } from '../../types'
+import type { ReducerState, ReducerAction } from './types'
 
 const sortMessages = (messages: Message[], sortBy: SortOptions) => {
   if (sortBy === 'priority') {

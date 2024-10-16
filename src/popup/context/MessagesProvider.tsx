@@ -30,6 +30,7 @@ export default function MessagesProvider({
   }, [])
 
   function updateMessage(id: string, message: Partial<Message>) {
+    console.log('Updating message in the context')
     dispatch({ type: 'UPDATE_MESSAGE', id, message })
 
     chrome.runtime.sendMessage(
