@@ -23,7 +23,7 @@ jest.mock('@faker-js/faker', () => {
 
 describe('API', () => {
   describe('get', () => {
-    it.only('should return at least one mocked message by default starting from no stored messages', async () => {
+    it('should return at least one mocked message by default starting from no stored messages', async () => {
       const fakeTimestamps = [new Date('2024-10-15T12:00:00Z')]
       ;(faker.date.betweens as jest.Mock).mockReturnValue(fakeTimestamps)
       ;(faker.lorem.sentence as jest.Mock).mockReturnValue(
