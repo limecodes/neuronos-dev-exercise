@@ -22,3 +22,5 @@ export type EventMessage = {
   id: string
   message: Partial<Message>
 }
+
+export type SortOptions = 'timestamp' | 'unread' | 'priority'
