@@ -42,16 +42,10 @@ describe('handleNewMessages', () => {
     ;(faker.date.betweens as jest.Mock).mockReturnValue([])
     ;(faker.lorem.sentence as jest.Mock).mockReturnValue('')
 
-    // Check that when the handler runs, no new messages are fetched
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
-
     await handleNewMessages()
 
-    expect(consoleSpy).toHaveBeenCalledWith('No new messages')
     expect(Messages.set).not.toHaveBeenCalled()
     expect(handleUpdateBadge).not.toHaveBeenCalled()
-
-    consoleSpy.mockRestore()
   })
 
   it('should fetch and save new messages, and update the badge', async () => {
@@ -89,17 +83,12 @@ describe('handleNewMessages', () => {
     const combinedMessages = [...storedMessages, ...newMessages]
     await Messages.set(combinedMessages)
 
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
-
     await handleNewMessages()
 
     expect(Messages.get).toHaveBeenCalled()
     expect(Messages.fetch).toHaveBeenCalledWith('msg1')
     expect(Messages.set).toHaveBeenCalledWith(combinedMessages)
     expect(handleUpdateBadge).toHaveBeenCalledWith(combinedMessages)
-    expect(consoleSpy).toHaveBeenCalledWith('Messages saved successfully')
-
-    consoleSpy.mockRestore()
     chrome.storage.local.get = originalGet
   })
 

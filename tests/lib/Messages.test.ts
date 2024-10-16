@@ -4,7 +4,6 @@ import Messages from '../../src/lib/Messages'
 import Storage from '../../src/lib/Storage'
 import type { Message } from '../../src/types'
 
-// Mocking Storage and API modules
 jest.mock('../../src/lib/Storage')
 jest.mock('../../src/lib/API')
 

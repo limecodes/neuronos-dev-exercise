@@ -10,6 +10,7 @@ describe('Storage module', () => {
     it('should return the stored data when available', async () => {
       const mockData = { myKey: 'testValue' }
 
+      // Cast the function to jest.Mock to use mockImplementation
       ;(chrome.storage.local.get as jest.Mock).mockImplementation(
         (_, callback) => {
           callback(mockData)

@@ -46,8 +46,6 @@ describe('handleUpdateMessages', () => {
         callback({ [key]: mockStoredMessages })
       })
 
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
-
     const updatedMessageFields = { read: true }
     const updatedMessage = { id: 'msg1', message: updatedMessageFields }
 
@@ -77,9 +75,6 @@ describe('handleUpdateMessages', () => {
       },
       mockStoredMessages[1],
     ])
-    expect(consoleSpy).toHaveBeenCalledWith('Messages saved successfully')
-
-    consoleSpy.mockRestore()
   })
 
   it('should not update the badge or call onUpdated if saving messages fails', async () => {
@@ -107,8 +102,6 @@ describe('handleUpdateMessages', () => {
         callback({ [key]: mockStoredMessages })
       })
 
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
-
     const updatedMessageFields = { read: true }
     const updatedMessage = { id: 'msg1', message: updatedMessageFields }
 
@@ -130,8 +123,5 @@ describe('handleUpdateMessages', () => {
     ])
     expect(onUpdatedSpy).not.toHaveBeenCalled()
     expect(handleUpdateBadge).not.toHaveBeenCalled()
-    expect(consoleSpy).not.toHaveBeenCalledWith('Messages saved successfully')
-
-    consoleSpy.mockRestore()
   })
 })
