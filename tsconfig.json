@@ -1,4 +1,19 @@
 {
+  "exclude": ["node_modules", "dist", "jest.config.js"],
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "react-jsx",
+    "lib": ["es2015", "dom"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "dist/js",
+    "rootDir": "src",
+    "sourceMap": true,
+    "target": "ESNext",
+    "types": ["jest", "chrome", "@testing-library/jest-dom"]
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
