@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import Messages from '../lib/Messages'
 import type { Message } from '../types'
 import type {
   CreateMockedResponseOptions,
@@ -22,10 +23,8 @@ export async function createMockedResponse({
   let currentMessageId = lastMessageId
 
   const now = new Date()
-  // TODO: This is important to return to later as I'm paginating by timestamp
-  const lastMessageTimestamp = getLatestTimestamp()
+  const lastMessageTimestamp = await getLatestTimestamp(lastMessageId)
 
-  // This ensures that we have sequential timestamps
   const timestamps = faker.date.betweens({
     from: lastMessageTimestamp
       ? new Date(lastMessageTimestamp)
@@ -78,9 +77,18 @@ function incrementId(id: string): string {
 }
 
 /**
- * Used later for retrieving the latest timestamp for pagination
- * @returns string
+ * Gets the latest timestamp from the last message
+ * @param lastMessageId
+ * @returns string | null
  */
-function getLatestTimestamp(): string {
-  return new Date().toISOString()
+async function getLatestTimestamp(
+  lastMessageId: string | null,
+): Promise<string | null> {
+  if (!lastMessageId) {
+    return null
+  }
+
+  const latestMessage = await Messages.getById(lastMessageId)
+
+  return latestMessage ? latestMessage.timestamp : null
 }

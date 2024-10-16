@@ -28,7 +28,6 @@ export async function handleUpdateMessages(
   const saved = await Messages.set(updatedMessages)
 
   if (saved) {
-    console.log('Messages saved successfully')
     onUpdated?.(updatedMessages)
     handleUpdateBadge(updatedMessages)
   }

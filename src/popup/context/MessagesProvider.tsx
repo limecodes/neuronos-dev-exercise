@@ -39,6 +39,7 @@ export default function MessagesProvider({
         if (response?.success) {
           console.log('Message successfully updated in the background')
         } else {
+          // TODO: Not handling a fallback for this error yet
           console.error('Failed to update message in the background')
         }
       },
