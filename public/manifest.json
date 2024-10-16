@@ -11,11 +11,7 @@
     "type": "module"
   },
   "options_page": "options/options.html",
-  "permissions": [
-    "storage",
-    "activeTab",
-    "alarms"
-  ],
+  "permissions": ["storage", "activeTab", "alarms"],
   "icons": {
     "16": "assets/icons/icon16.png",
     "48": "assets/icons/icon48.png",
