@@ -20,9 +20,13 @@ export default function MessagesProvider({
     { messages: initialMessages },
   )
   const hasMessages = useMemo(() => messages.length > 0, [messages])
+  const numUnreadMessages = useMemo(
+    () => messages.filter(message => !message.read).length,
+    [messages],
+  )
   const sortedMessages = useMemo(
-    () => sortMessages(messages, sortBy),
-    [messages, sortBy],
+    () => sortMessages(messages, sortBy, numUnreadMessages > 0),
+    [messages, sortBy, numUnreadMessages],
   )
 
   useEffect(() => {
@@ -61,7 +65,7 @@ export default function MessagesProvider({
   }
 
   const value: MessagesContextType = [
-    { messages: sortedMessages, sortBy, hasMessages },
+    { messages: sortedMessages, sortBy, hasMessages, numUnreadMessages },
     { update, sort },
   ]
 

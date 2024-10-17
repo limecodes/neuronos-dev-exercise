@@ -240,7 +240,7 @@ The current sorting mechanism is basic and is therefore designed for small sets 
 
 ### Improved UI/UX
 
-While function, the UI could be improved with better design features such as being able to sort by more than one criteria and having a better control for sorting. Additionally accessibililty features such as keyboard navigation could also be added. Not so much for accessibility, but to be able to use the extension with the keyboard (e.g. sort using a particular keyboard key)
+While function, the UI could be improved with better design features such as being able to sort by more than one criteria and having a better control for sorting such as sort in ascending/descending order if sort button is clicked twice, in other words toggle (high priority -> low priority, low priority -> high priority). Additionally accessibililty features such as keyboard navigation could also be added. Not so much for accessibility, but to be able to use the extension with the keyboard (e.g. sort using a particular keyboard key)
 
 ### User Settings
 

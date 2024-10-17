@@ -3,11 +3,13 @@ import SortButton from './SortButton'
 
 type SortControlProps = {
   sortBy: string
+  hasUnreadMessages: boolean
   onSortMessages: (sortBy: SortOptions) => void
 }
 
 export default function SortControl({
   sortBy,
+  hasUnreadMessages,
   onSortMessages,
 }: SortControlProps) {
   const handleSortMessages = (sortBy: SortOptions) => () =>
@@ -16,16 +18,17 @@ export default function SortControl({
   return (
     <div className="space-x-4">
       <SortButton
+        isSelected={sortBy === 'unread'}
+        onClick={handleSortMessages('unread')}
+        disabled={!hasUnreadMessages}
+      >
+        Sort by Unread
+      </SortButton>
+      <SortButton
         isSelected={sortBy === 'timestamp'}
         onClick={handleSortMessages('timestamp')}
       >
         Sort by Timestamp
-      </SortButton>
-      <SortButton
-        isSelected={sortBy === 'unread'}
-        onClick={handleSortMessages('unread')}
-      >
-        Sort by Unread
       </SortButton>
       <SortButton
         isSelected={sortBy === 'priority'}

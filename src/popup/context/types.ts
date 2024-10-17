@@ -2,8 +2,9 @@ import { Message, SortOptions } from '../../types'
 
 export type MessagesState = {
   messages: Message[]
-  hasMessages: boolean
   sortBy: SortOptions
+  hasMessages: boolean
+  numUnreadMessages: number
 }
 
 export type InitialState = Pick<MessagesState, 'messages' | 'sortBy'>
