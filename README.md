@@ -63,6 +63,11 @@ npm run build
 
 This will generate the `dist/` directory that contains the unpacked extension.
 
+**Run Tests**
+```
+npm run test
+```
+
 ## Assumptions
 
 The following assumptions were made during the development of this extension.
