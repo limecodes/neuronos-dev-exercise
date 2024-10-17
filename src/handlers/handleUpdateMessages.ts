@@ -2,7 +2,7 @@ import Messages from '../lib/Messages'
 import type { EventMessage, Message } from '../types'
 import { handleUpdateBadge } from './handleUpdateBadge'
 
-type UpdateArgs = Omit<EventMessage, 'action'>
+type UpdateArgs = Omit<EventMessage, 'action' | 'prevMessage'>
 
 /**
  * Handler for updating messages (e.g. read status)
@@ -13,22 +13,19 @@ type UpdateArgs = Omit<EventMessage, 'action'>
  */
 export async function handleUpdateMessages(
   { id, message: updatedFields }: UpdateArgs,
-  onUpdated?: (messages: Message[]) => void,
+  onUpdated?: (updatedMessages: Message[]) => void,
+  onFailed?: (error: string) => void,
 ) {
-  const storedMessages = await Messages.get()
+  const updatedMessages = await Messages.update(id, updatedFields)
 
-  const updatedMessages = storedMessages.map(message => {
-    if (message.id === id) {
-      return { ...message, ...updatedFields }
-    }
+  if (updatedMessages.length === 0) {
+    const err = 'Failed to save updated messages'
+    console.error(err)
+    onFailed?.(err)
 
-    return message
-  })
-
-  const saved = await Messages.set(updatedMessages)
-
-  if (saved) {
-    onUpdated?.(updatedMessages)
-    handleUpdateBadge(updatedMessages)
+    return
   }
+
+  onUpdated?.(updatedMessages)
+  handleUpdateBadge(updatedMessages)
 }

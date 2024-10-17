@@ -15,7 +15,7 @@ export default function MessagesProvider({
   children,
 }: MessageProviderProps) {
   const [sortBy, setSortBy] = useState<SortOptions>(initialSortBy)
-  const [{ messages }, dispatch] = useReducer<typeof messagesReducer>(
+  const [{ messages, error }, dispatch] = useReducer<typeof messagesReducer>(
     messagesReducer,
     { messages: initialMessages },
   )
@@ -39,16 +39,26 @@ export default function MessagesProvider({
 
   function update(id: string, message: Partial<Message>) {
     console.log('Updating message in the context')
+    const prevMessage = messages.find(msg => msg.id === id)
     dispatch({ type: 'UPDATE_MESSAGE', id, message })
 
     chrome.runtime.sendMessage(
-      { action: 'UPDATE_MESSAGE', id, message },
+      {
+        action: 'UPDATE_MESSAGE',
+        id,
+        message,
+        prevMessage,
+      },
       response => {
-        if (response?.success) {
-          console.log('Message successfully updated in the background')
-        } else {
-          // TODO: Not handling a fallback for this error yet
+        console.log({ response })
+        if (response && !response.success) {
           console.error('Failed to update message in the background')
+          dispatch({
+            type: 'ERROR',
+            error: response.error,
+            id,
+            prevMessage: response.prevMessage,
+          })
         }
       },
     )
@@ -65,7 +75,7 @@ export default function MessagesProvider({
   }
 
   const value: MessagesContextType = [
-    { messages: sortedMessages, sortBy, hasMessages, numUnreadMessages },
+    { messages: sortedMessages, error, sortBy, hasMessages, numUnreadMessages },
     { update, sort },
   ]
 

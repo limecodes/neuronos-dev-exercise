@@ -30,6 +30,20 @@ export function messagesReducer(
       }
     }
 
+    case 'ERROR': {
+      const updatedMessages = state.messages.map(message =>
+        message.id === action.id
+          ? { ...message, ...action.prevMessage }
+          : message,
+      )
+
+      return {
+        ...state,
+        messages: updatedMessages,
+        error: action.error,
+      }
+    }
+
     default:
       return state
   }

@@ -19,6 +19,7 @@ export default function Popup() {
             />
           )}
         </div>
+        {state.error && <div className="text-red-500">{state.error}</div>}
         {state.hasMessages ? (
           <MessageList
             messages={state.messages}

@@ -5,18 +5,17 @@ export type MessagesState = {
   sortBy: SortOptions
   hasMessages: boolean
   numUnreadMessages: number
+  error?: string
 }
 
 export type InitialState = Pick<MessagesState, 'messages' | 'sortBy'>
 
-export type ReducerState = { messages: Message[] }
+export type ReducerState = { messages: Message[]; error?: string }
 
 export type ReducerAction =
   | { type: 'ADD_MESSAGES'; messages: Message[] }
   | { type: 'UPDATE_MESSAGE'; id: string; message: Partial<Message> }
-  | { type: 'SORT_BY_UNREAD' }
-  | { type: 'SORT_BY_PRIORITY' }
-  | { type: 'SORT_BY_TIMESTAMP' }
+  | { type: 'ERROR'; error: string; id: string; prevMessage: Partial<Message> }
 
 export type MessagesActions = {
   update: (id: string, message: Partial<Message>) => void

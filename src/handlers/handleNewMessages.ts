@@ -10,6 +10,7 @@ import { handleUpdateBadge } from './handleUpdateBadge'
  */
 export async function handleNewMessages(
   onSaved?: (messages: Message[]) => void,
+  onFailed?: (error: string) => void,
 ) {
   const storedMessages = await Messages.get()
   const latestStoredId = storedMessages[0]?.id || null
@@ -24,10 +25,14 @@ export async function handleNewMessages(
   const messages = [...storedMessages, ...newMessages]
   const saved = await Messages.set(messages)
 
-  if (saved) {
-    console.log('Messages saved successfully')
-    onSaved?.(messages)
+  if (!saved) {
+    const err = 'Error saving messages'
+    console.error(err)
+    onFailed?.(err)
+    return
   }
 
+  console.log('Messages saved successfully')
+  onSaved?.(messages)
   handleUpdateBadge(messages)
 }

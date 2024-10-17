@@ -96,7 +96,7 @@ async function getUnreadCount(messages?: Message[]): Promise<number> {
 async function update(
   id: string,
   updatedFields: Partial<Message>,
-): Promise<boolean> {
+): Promise<Message[]> {
   try {
     const storedMessages = await get()
 
@@ -114,11 +114,11 @@ async function update(
 
     await set(updatedMessages)
 
-    return true
+    return updatedMessages
   } catch (error) {
     console.error('Error updating message:', error)
 
-    return false
+    return []
   }
 }
 
