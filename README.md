@@ -76,6 +76,8 @@ These assumptions were made according to the following factors:
 
 **Data Storage**
 - The extension relies solely on Chrome's storage for the state and doesn't make use of any other databases or storage other than the mocked endpoint
+- It's assumed that storage is a simple key/value pair where the message history is stored as an array of objects under a particular key
+- Since it's simple data storage, there's no need for a more advanced storage or data sync mechanism
 
 **Authentication**
 - This exercise doesn't note any requirement for authentication, therefore there's no handling or simulation of an authentication flow or an authentication with the API
@@ -89,6 +91,7 @@ These assumptions were made according to the following factors:
 **Happy Path Assumption**
 - For the purpose of this exercise, we're assuming successful responses (happy path)
 - While error handling mechanisms are in place, it's assumed that an API error isn't critical enough to retry the request
+- It's also assumed that the user always has a connection to the database, in other words no offline capabilities or sync-capabilities for data-loss scenarios
 
 **Timestamp based sorting**
 - It's assumed that by default messages are sorted by timestamp
