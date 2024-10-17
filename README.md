@@ -161,3 +161,20 @@ This provides the following advantages:
 - Readability - I know exactly what data is being passed to the components, instead of, for example, `<Component />` where I don't know what properties it requires to function unless I look into it.
 
 The disadvantage is that there's some prop drilling. For example, `<MessageList messages={messages} onUpdateMessage={updateMessage} />` receives `messages` while it can retrieve this via the `useMessages` hook internally. Then, inside that component, `<MessageItem key={id} content={content} timestamp={timestamp} {...} />` I pass through certain props of one message, where that component can also simply retrieve it by id via `useMessages`. I choose not to do this though, because it would then be tied to the context and wouldn't be easily re-used if it needs to work the same in another part of the application using a different but similar state/context. Another reason is that I prefer visibility of what props are being passed to a component.
+
+It's important to note that this type of component organisation is a personal preference, as it simply works for me on my projects. Some React developers enforce this architecture [because of this article by Dan Abramov](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) who has since changed his opinion (which in turn triggered arguments against this architecture). I still use this architecture because I find it natural, but don't consider this the only way of component organisation as some might argue.
+
+**Testing Strategy**
+This solution currently consists of mainly unit tests. The testing strategy that I employ here is to test the services (Messages, Storage & API) in isolation where the underlying services are mocked in order to test certain conditions. However for the handlers, the only component that I mock is `faker`. This way the unit test allows the logic to pass all the way through to the source of the data in order to test the full system. Otherwise, in the handlers, no service such as the `Messages` or `API` service is mocked.
+
+In terms of frontend tests, I'm also using **jest** for testing the main `Popup` component. Due to time constraints, I written unit tests for the isolated components.
+
+**Styling**
+I used tailwind for styling as it provides with a great CSS framework that allows me to have a visually appealling with very little effort. Simply setting up tailwind and adding the classes that I need. Another reason that I used tailwind is because it's mentioned in the exercise specification.
+
+Otherwise, my personal preference would have been to use a CSS-in-JS based solution. This would have eaten time for setup however.
+
+While I like tailwind's simplicity and ease of setup, the disadvantage of tailwind is the long list of CSS classes and it's not as great in terms of extendability when compared to CSS-in-JS styling frameworks.
+
+**Build System**
+I used vite for the bundling and build system. Mainly for it's ease of use and quick setup. However, it's my preference over webpack due to the fact that vite uses rollup under the hood, which provides better tree-shaking capability and a smaller bundle size. Additionally, Vite’s faster HMR (Hot Module Replacement) is better for productivity.
