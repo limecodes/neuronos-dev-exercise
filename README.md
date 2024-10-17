@@ -1,10 +1,6 @@
 # NeuronOS Dev Exercise
 
-
-
-https://github.com/user-attachments/assets/5d068928-a93f-4c86-9cc0-0e804419b9c0
-
-
+https://github.com/user-attachments/assets/796ed629-bcd9-4d8a-8a03-89c118aae0bc
 
 ## Table of Contents
 1. [Installation](#installation)
