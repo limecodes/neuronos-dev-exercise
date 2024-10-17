@@ -6,7 +6,9 @@ export type MessagesState = {
   sortBy: SortOptions
 }
 
-export type ReducerState = Omit<MessagesState, 'hasMessages'>
+export type InitialState = Pick<MessagesState, 'messages' | 'sortBy'>
+
+export type ReducerState = { messages: Message[] }
 
 export type ReducerAction =
   | { type: 'ADD_MESSAGES'; messages: Message[] }

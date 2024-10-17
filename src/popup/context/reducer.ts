@@ -1,5 +1,4 @@
 import type { ReducerState, ReducerAction } from './types'
-import { sortMessages } from './helpers'
 
 export function messagesReducer(
   state: ReducerState,
@@ -16,7 +15,7 @@ export function messagesReducer(
 
       return {
         ...state,
-        messages: sortMessages(updatedMessages, state.sortBy),
+        messages: updatedMessages,
       }
     }
 
@@ -27,7 +26,7 @@ export function messagesReducer(
 
       return {
         ...state,
-        messages: sortMessages(updatedMessages, state.sortBy),
+        messages: updatedMessages,
       }
     }
 

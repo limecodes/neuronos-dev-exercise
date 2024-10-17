@@ -1,6 +1,6 @@
 import { ReactNode, useReducer, useEffect, useMemo, useState } from 'react'
 import type { Message, SortOptions } from '../../types'
-import type { ReducerState as InitialState, MessagesContextType } from './types'
+import type { InitialState, MessagesContextType } from './types'
 import { MessagesContext } from './context'
 import { messagesReducer } from './reducer'
 import { sortMessages } from './helpers'
@@ -17,10 +17,7 @@ export default function MessagesProvider({
   const [sortBy, setSortBy] = useState<SortOptions>(initialSortBy)
   const [{ messages }, dispatch] = useReducer<typeof messagesReducer>(
     messagesReducer,
-    {
-      messages: initialMessages,
-      sortBy: 'unread',
-    },
+    { messages: initialMessages },
   )
   const hasMessages = useMemo(() => messages.length > 0, [messages])
   const sortedMessages = useMemo(
