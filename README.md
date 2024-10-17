@@ -221,3 +221,27 @@ I used vite for the bundling and build system. Mainly for it's ease of use and q
 I'm using Github Actions to run lint, tests and check the build on each commit. Upon creating a tag, I'm creating a zip file and attaching it to the release so that a build can be downloaded with each release without having to pull down the repository.
 
 ## Future Improvements
+
+### Better Error Handling
+
+Currently errors are logged to the console, but it would be useful to have a more robust logging system that logs errors to a system like Sentry, Datadog or Rollbar to get insights into client-side errors in real-time. Additional time can be spent on more error displays in the UI, at the moment it's very basic.
+
+### Message Pagination
+
+Currently the popup scrolls through the messages however pagination between messages and show a certain limit per page that can be controlled by the user would be a better experience.
+
+### Websocket Integration
+
+Instead of polling the messages every so often, a WebSocket connection or a Push Notification service would be more ideal for better updates so that the application recieves messages when they are available and for real-time updates.
+
+### Optimized sorting
+
+The current sorting mechanism is basic and is therefore designed for small sets of messages, but could be optimized for performance with larger datasets and make use virtualized lists.
+
+### Improved UI/UX
+
+While function, the UI could be improved with better design features such as being able to sort by more than one criteria and having a better control for sorting. Additionally accessibililty features such as keyboard navigation could also be added. Not so much for accessibility, but to be able to use the extension with the keyboard (e.g. sort using a particular keyboard key)
+
+### User Settings
+
+In the very near future, it would be very beneficial to build an options screen to be able to control the polling intervals, notification options and add more control to the extension's function.
