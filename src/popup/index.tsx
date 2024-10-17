@@ -15,7 +15,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, async () => {
   ReactDOM.createRoot(document.getElementById('popup')!).render(
     <StrictMode>
       <WithErrorBoundary>
-        <MessagesProvider messages={messages}>
+        <MessagesProvider messages={messages} sortBy="timestamp">
           <Popup />
         </MessagesProvider>
       </WithErrorBoundary>

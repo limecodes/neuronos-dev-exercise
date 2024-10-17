@@ -1,18 +1,21 @@
-import { ReactNode, useReducer, useEffect, useMemo } from 'react'
+import { ReactNode, useReducer, useEffect, useMemo, useState } from 'react'
 import type { Message, SortOptions } from '../../types'
-import type { MessagesState, MessagesContextType } from './types'
+import type { ReducerState as InitialState, MessagesContextType } from './types'
 import { MessagesContext } from './context'
 import { messagesReducer } from './reducer'
+import { sortMessages } from './helpers'
 
-type MessageProviderProps = Pick<MessagesState, 'messages'> & {
+type MessageProviderProps = InitialState & {
   children: ReactNode
 }
 
 export default function MessagesProvider({
   messages: initialMessages = [],
+  sortBy: initialSortBy = 'timestamp',
   children,
 }: MessageProviderProps) {
-  const [{ messages, sortBy }, dispatch] = useReducer<typeof messagesReducer>(
+  const [sortBy, setSortBy] = useState<SortOptions>(initialSortBy)
+  const [{ messages }, dispatch] = useReducer<typeof messagesReducer>(
     messagesReducer,
     {
       messages: initialMessages,
@@ -20,6 +23,10 @@ export default function MessagesProvider({
     },
   )
   const hasMessages = useMemo(() => messages.length > 0, [messages])
+  const sortedMessages = useMemo(
+    () => sortMessages(messages, sortBy),
+    [messages, sortBy],
+  )
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener(event => {
@@ -29,7 +36,7 @@ export default function MessagesProvider({
     })
   }, [])
 
-  function updateMessage(id: string, message: Partial<Message>) {
+  function update(id: string, message: Partial<Message>) {
     console.log('Updating message in the context')
     dispatch({ type: 'UPDATE_MESSAGE', id, message })
 
@@ -46,19 +53,19 @@ export default function MessagesProvider({
     )
   }
 
-  function sortMessages(sortBy: SortOptions) {
+  function sort(sortBy: SortOptions) {
     const sortFunctions = {
-      timestamp: () => dispatch({ type: 'SORT_BY_TIMESTAMP' }),
-      unread: () => dispatch({ type: 'SORT_BY_UNREAD' }),
-      priority: () => dispatch({ type: 'SORT_BY_PRIORITY' }),
+      timestamp: () => setSortBy('timestamp'),
+      unread: () => setSortBy('unread'),
+      priority: () => setSortBy('priority'),
     }
 
     sortFunctions[sortBy]()
   }
 
   const value: MessagesContextType = [
-    { messages, sortBy, hasMessages },
-    { updateMessage, sortMessages },
+    { messages: sortedMessages, sortBy, hasMessages },
+    { update, sort },
   ]
 
   return (

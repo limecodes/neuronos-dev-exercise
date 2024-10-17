@@ -16,8 +16,8 @@ export type ReducerAction =
   | { type: 'SORT_BY_TIMESTAMP' }
 
 export type MessagesActions = {
-  updateMessage: (id: string, message: Partial<Message>) => void
-  sortMessages: (sortBy: SortOptions) => void
+  update: (id: string, message: Partial<Message>) => void
+  sort: (sortBy: SortOptions) => void
 }
 
 export type MessagesContextType = [MessagesState, MessagesActions]

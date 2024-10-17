@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import type { Message } from '../../types'
 import MessageItem from './MessageItem'
 
@@ -6,10 +7,7 @@ interface MessageListProps {
   onUpdateMessage: (id: string, message: Partial<Message>) => void
 }
 
-export default function MessageList({
-  messages,
-  onUpdateMessage,
-}: MessageListProps) {
+function MessageListComponent({ messages, onUpdateMessage }: MessageListProps) {
   function handleMarkAsRead(id: string) {
     onUpdateMessage(id, { read: true })
   }
@@ -38,3 +36,5 @@ export default function MessageList({
     </ul>
   )
 }
+
+export default memo(MessageListComponent)
