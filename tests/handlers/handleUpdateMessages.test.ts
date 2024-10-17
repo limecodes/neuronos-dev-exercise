@@ -12,8 +12,7 @@ describe('handleUpdateMessages', () => {
     jest.clearAllMocks()
     originalGet = chrome.storage.local.get
 
-    jest.spyOn(Messages, 'get')
-    jest.spyOn(Messages, 'set')
+    jest.spyOn(Messages, 'update')
   })
 
   afterEach(() => {
@@ -53,14 +52,10 @@ describe('handleUpdateMessages', () => {
 
     await handleUpdateMessages(updatedMessage, onUpdatedSpy)
 
-    expect(Messages.get).toHaveBeenCalled()
-    expect(Messages.set).toHaveBeenCalledWith([
-      {
-        ...mockStoredMessages[0],
-        ...updatedMessageFields,
-      },
-      mockStoredMessages[1],
-    ])
+    expect(Messages.update).toHaveBeenCalledWith(
+      updatedMessage.id,
+      updatedMessageFields,
+    )
     expect(onUpdatedSpy).toHaveBeenCalledWith([
       {
         ...mockStoredMessages[0],
@@ -105,22 +100,13 @@ describe('handleUpdateMessages', () => {
     const updatedMessageFields = { read: true }
     const updatedMessage = { id: 'msg1', message: updatedMessageFields }
 
-    jest.spyOn(Messages, 'set').mockResolvedValue(false)
+    jest.spyOn(Messages, 'update').mockResolvedValue([])
 
     const onUpdatedSpy = jest.fn()
 
     await handleUpdateMessages(updatedMessage, onUpdatedSpy)
 
-    const expectedUpdatedMessage = {
-      ...mockStoredMessages[0],
-      ...updatedMessageFields,
-    }
-
-    expect(Messages.get).toHaveBeenCalled()
-    expect(Messages.set).toHaveBeenCalledWith([
-      expectedUpdatedMessage,
-      mockStoredMessages[1],
-    ])
+    expect(Messages.update).toHaveBeenCalledWith('msg1', updatedMessageFields)
     expect(onUpdatedSpy).not.toHaveBeenCalled()
     expect(handleUpdateBadge).not.toHaveBeenCalled()
   })

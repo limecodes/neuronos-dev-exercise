@@ -120,24 +120,25 @@ describe('Messages Service', () => {
   })
 
   describe('update', () => {
-    it('should update a message and return true', async () => {
+    it('should update a message and return updated message', async () => {
       ;(Storage.get as jest.Mock).mockResolvedValue(mockMessages)
       ;(Storage.set as jest.Mock).mockResolvedValue(undefined)
 
       const result = await Messages.update('msg1', { read: true })
+      const expected = [{ ...mockMessages[0], read: true }, mockMessages[1]]
 
       expect(Storage.get).toHaveBeenCalledWith(STORAGE_KEY)
       expect(Storage.set).toHaveBeenCalledWith(STORAGE_KEY, expect.any(Array))
-      expect(result).toBe(true)
+      expect(result).toStrictEqual(expected)
     })
 
-    it('should return false if an error occurs during update', async () => {
+    it('should return empty array if an error occurs during update', async () => {
       ;(Storage.get as jest.Mock).mockRejectedValue(new Error('Storage error'))
 
       const result = await Messages.update('msg1', { read: true })
 
       expect(Storage.get).toHaveBeenCalledWith(STORAGE_KEY)
-      expect(result).toBe(false)
+      expect(result).toStrictEqual([])
     })
   })
 })
