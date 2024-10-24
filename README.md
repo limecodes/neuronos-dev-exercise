@@ -91,6 +91,10 @@ These assumptions were made according to the following factors:
 - Give the above, this behaviour is simulated in this extension
 - It's assumed that the message ID's are in the format `msg{number}`
 
+### Data/Messages
+
+- We're assuming that the data that we're recieving from the API isn't sensitive and therefore doesn't need to be encrypted when stored.
+
 ### Data Storage
 
 - The extension relies solely on Chrome's storage for the state and doesn't make use of any other databases or storage other than the mocked endpoint
@@ -221,6 +225,12 @@ I used vite for the bundling and build system. Mainly for it's ease of use and q
 I'm using Github Actions to run lint, tests and check the build on each commit. Upon creating a tag, I'm creating a zip file and attaching it to the release so that a build can be downloaded with each release without having to pull down the repository.
 
 ## Future Improvements
+
+### Encryption & Security Policy
+
+Currently the data is stored in `chrome.storage` unencrypted which means that if it's accessed, then any sensitive data would be compromised. Chrome's storage used LevelDB and isn't protected, meaning that it can be compromised through unauthorized access through the user's machine. Since the data could be sensitive, the data should be encrypted when stored. It should be decrypted with an authorization key after logging in with credentials confirming.
+
+A content security policy should be added to the manifest file to limit execution of javascript by unauthorized means.
 
 ### Better Error Handling
 
