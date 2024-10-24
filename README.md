@@ -236,6 +236,10 @@ A content security policy should be added to the manifest file to limit executio
 
 While I'm loading the stored data when I open the extension, I'm also fetching new data and waiting until the state has initialized. This could be improved by displayed the stale (stored) data first while the new data is being fetched from the server, and revalidate the data when it's available. This would allow for faster loading.
 
+### Message Queue
+
+To avoid overloading the server, I could manage the requests in a queue to avoid a scenario where the user marks many messages as read really quickly. This could create a few problems from the server side. Since I'm following the optimistic UI approach, I could queue these requests instead of sending them all at once. I could also merge separate changes into one object and send as one request in a given interval, this would help in reducing the load on the server and would also be a pre-cursor for offline capability.
+
 ### Better Error Handling
 
 Currently errors are logged to the console, but it would be useful to have a more robust logging system that logs errors to a system like Sentry, Datadog or Rollbar to get insights into client-side errors in real-time. Additional time can be spent on more error displays in the UI, at the moment it's very basic.
